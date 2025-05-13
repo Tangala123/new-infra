@@ -14,19 +14,13 @@ resource "aws_iam_role" "ecs_task_role" {
     ]
   })
 
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
+  tags =var.tags
 }
 
 resource "aws_ecs_cluster" "cvist-ecs-cluster" {
   name = var.ecs_cluster_name
 
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
+  tags = var.tags
 }
 
 resource "aws_ecs_task_definition" "cvist-ecs-task" {
@@ -53,10 +47,7 @@ resource "aws_ecs_task_definition" "cvist-ecs-task" {
 
   task_role_arn = aws_iam_role.ecs_task_role.arn
 
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
+  tags = var.tags
 }
 
 resource "aws_ecs_service" "cvist-ecs-service" {
@@ -73,17 +64,12 @@ resource "aws_ecs_service" "cvist-ecs-service" {
   }
 
   load_balancer {
-    target_group_arn = module.alb.target_group_arn  # Reference from ALB module
-    container_name   = module.alb.container_name   # Reference from ALB module
+    target_group_arn = module.alb.target_group_arn
+    container_name   = var.container_name
     container_port   = var.container_port
   }
 
-  depends_on = [module.alb.lb_listener_arn]  # Wait for ALB listener to be created first
-
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
+  tags = var.tags 
 }
 
 resource "aws_appautoscaling_target" "cvist-autoscale-target" {
@@ -93,31 +79,20 @@ resource "aws_appautoscaling_target" "cvist-autoscale-target" {
   scalable_dimension = "ecs:service:DesiredCount"
   service_namespace  = "ecs"
 
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
+  tags = var.tags
 }
 
 resource "aws_appautoscaling_policy" "cvist-autoscale-policy" {
   name                   = "cvist-autoscale-policy"
-  scaling_adjustment     = 1
-  adjustment_type        = "ChangeInCapacity"
-  cooldown               = 300
+  policy_type            = "TargetTrackingScaling"
+  resource_id            = aws_appautoscaling_target.cvist-autoscale-target.resource_id
+  scalable_dimension     = aws_appautoscaling_target.cvist-autoscale-target.scalable_dimension
+  service_namespace      = aws_appautoscaling_target.cvist-autoscale-target.service_namespace
+
   target_tracking_scaling_policy_configuration {
     target_value         = var.target_value
     predefined_metric_specification {
       predefined_metric_type = "ECSServiceAverageCPUUtilization"
     }
   }
-  policy_type            = "TargetTrackingScaling"
-  resource_id            = aws_appautoscaling_target.cvist-autoscale-target.resource_id
-  scalable_dimension     = aws_appautoscaling_target.cvist-autoscale-target.scalable_dimension
-  service_namespace      = aws_appautoscaling_target.cvist-autoscale-target.service_namespace
-
-  tags = {
-    Environment = var.environment
-    Project     = var.project_name
-  }
 }
-

@@ -18,26 +18,6 @@ variable "container_image" {
   type        = string
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs for ECS service"
-  type        = list(string)
-}
-
-variable "security_group_id" {
-  description = "The security group ID for ECS service"
-  type        = string
-}
-
-variable "target_group_arn" {
-  description = "ARN of the ALB Target Group"
-  type        = string
-}
-
-variable "lb_listener_arn" {
-  description = "ARN of the ALB Listener"
-  type        = any
-}
-
 variable "cpu" {
   description = "The amount of CPU to allocate to the task"
   type        = string
@@ -62,6 +42,16 @@ variable "desired_count" {
   default     = 1
 }
 
+variable "subnet_ids" {
+  description = "List of subnet IDs for ECS service"
+  type        = list(string)
+}
+
+variable "security_group_id" {
+  description = "The security group ID for ECS service"
+  type        = string
+}
+
 variable "max_capacity" {
   description = "Maximum capacity for autoscaling"
   type        = number
@@ -80,18 +70,33 @@ variable "target_value" {
   default     = 50
 }
 
-variable "environment" {
-  description = "The environment in which the resources are deployed (e.g., production, staging)"
+variable "target_group_arn" {
+  description = "ARN of the ALB Target Group"
   type        = string
 }
-
-variable "project_name" {
-  description = "The name of the project or application"
-  type        = string
-}
-
 
 variable "tags" {
   description = "Common tags for all resources"
   type        = map(string)
+}
+
+variable "kms_key_id" {
+  description = "The KMS key ID for encryption"
+  type        = string
+}
+
+# variable "environment" {
+#   description = "The environment in which the resources are deployed (e.g., production, staging)"
+#   type        = string
+# }
+
+# variable "project_name" {
+#   description = "The name of the project or application"
+#   type        = string
+# }
+
+
+variable "lb_listener_arn" {
+  description = "The ARN of the ALB Listener"
+  type        = string
 }

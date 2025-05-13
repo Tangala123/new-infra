@@ -12,7 +12,7 @@ resource "aws_lb" "alb-main" {
 resource "aws_lb_target_group" "alb-tg" {
   name     = "${var.alb_name}-tg"
   port     = 8443
-  protocol = "HTTP"
+  protocol = "HTTP" # Change to "HTTPS" if needed
   vpc_id   = var.vpc_id
 
   target_type = "ip"
@@ -33,7 +33,11 @@ resource "aws_lb_target_group" "alb-tg" {
 resource "aws_lb_listener" "http" {
   load_balancer_arn = aws_lb.alb-main.arn
   port              = 8443
-  protocol          = "HTTP"
+  protocol          = "HTTP" # Change to "HTTPS" if needed
+
+  # Uncomment the following lines if using HTTPS
+  # ssl_policy        = "ELBSecurityPolicy-2016-08"
+  # certificate_arn   = var.certificate_arn
 
   default_action {
     type             = "forward"

@@ -1,13 +1,10 @@
+# Tags
 variable "tags" {
   description = "Tags to apply to all resources"
   type        = map(string)
-  default     = {
-    "Environment" = "Non-Production"
-    "Owner"       = "DevOps"
-    "Project"     = "Terraform-CVIST"
-  }
 }
 
+# Networking
 variable "vpc_id" {
   description = "VPC ID"
   type        = string
@@ -38,16 +35,19 @@ variable "route_table_ids" {
   type        = list(string)
 }
 
+# ALB Configuration
 variable "alb_name" {
   description = "ALB name"
   type        = string
 }
 
+# ECR Configuration
 variable "ecr_repo_name" {
   description = "ECR Repository name"
   type        = string
 }
 
+# ECS Configuration
 variable "ecs_cluster_name" {
   description = "ECS Cluster name"
   type        = string
@@ -88,6 +88,7 @@ variable "desired_count" {
   type        = number
 }
 
+# Autoscaling Configuration
 variable "max_capacity" {
   description = "Max capacity for ECS autoscaling"
   type        = number
@@ -103,12 +104,24 @@ variable "target_value" {
   type        = number
 }
 
+# CloudWatch Configuration
 variable "retention_in_days" {
   description = "CloudWatch log retention days"
   type        = number
-  default     = 30
 }
 
+# Environment and Project Configuration
+variable "environment" {
+  description = "Environment name like dev/staging/prod"
+  type        = string
+}
+
+variable "project_name" {
+  description = "Project name"
+  type        = string
+}
+
+# Encryption
 variable "kms_key_id" {
   description = "KMS Key ID for encryption"
   type        = string

@@ -21,6 +21,7 @@ module "alb" {
 module "ecr" {
   source        = "./modules/ecr"
   ecr_repo_name = var.ecr_repo_name
+  kms_key_id    = var.kms_key_id
   tags          = var.tags
 }
 
@@ -35,21 +36,23 @@ module "ecs" {
   memory             = var.memory
   container_port     = var.container_port
   desired_count      = var.desired_count
-  subnet_ids         = var.subnet_ids
-  security_group_id  = var.security_group_id
+  subnet_ids         = module.network.private_subnet_ids
+  security_group_id  = module.network.security_group_id
   max_capacity       = var.max_capacity
   min_capacity       = var.min_capacity
   target_value       = var.target_value
 
   target_group_arn   = module.alb.target_group_arn
-  lb_listener_arn    = module.alb.lb_listener_arn
+  lb_listener_arn    = module.alb.lb_listener_arn    
+  kms_key_id         = var.kms_key_id                
 
   tags               = var.tags
 }
 
+
 module "cloudwatch" {
   source            = "./modules/cloudwatch"
   ecs_service_name  = var.ecs_service_name
-  retention_in_days = 30
+  retention_in_days = var.retention_in_days
   tags              = var.tags
 }

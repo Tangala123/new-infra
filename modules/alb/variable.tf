@@ -17,3 +17,15 @@ variable "vpc_id" {
   description = "VPC ID where the target group will be created"
   type        = string
 }
+
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
+}
+
+# variable "certificate_arn" {
+#   description = "ARN of the SSL certificate for HTTPS listener"
+#   type        = string
+#   default     = "" # Optional, if HTTPS is not used
+# }
+

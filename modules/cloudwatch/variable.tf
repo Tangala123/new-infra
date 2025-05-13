@@ -8,3 +8,8 @@ variable "retention_in_days" {
   type        = number
   default     = 30
 }
+
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
+}

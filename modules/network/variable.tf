@@ -1,5 +1,5 @@
 variable "vpc_id" {
-  description = "ID of the existing VPC"
+  description = "The ID of the existing VPC"
   type        = string
 }
 
@@ -9,13 +9,18 @@ variable "private_subnet_ids" {
 }
 
 variable "security_group_id" {
-  description = "ID of the existing security group"
+  description = "The ID of the existing security group"
   type        = string
 }
 
 variable "transit_gateway_id" {
-  description = "ID of the existing Transit Gateway"
+  description = "The ID of the existing Transit Gateway"
   type        = string
+}
+
+variable "transit_gateway_attachment_ids" {
+  description = "List of Transit Gateway Attachment IDs"
+  type        = list(string)
 }
 
 variable "route_table_ids" {
@@ -23,7 +28,7 @@ variable "route_table_ids" {
   type        = list(string)
 }
 
-variable "transit_gateway_attachment_ids" {
-  description = "List of Transit Gateway attachment IDs"
-  type        = list(string)
+variable "tags" {
+  description = "Tags to apply to all resources"
+  type        = map(string)
 }

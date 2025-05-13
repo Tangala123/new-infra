@@ -1,9 +1,14 @@
 variable "ecr_repo_name" {
-  description = "Name of the ECR repository"
+  description = "The name of the ECR repository"
   type        = string
 }
 
 variable "kms_key_id" {
-  description = "KMS key ID used for image encryption"
+  description = "The KMS key ID for encryption"
   type        = string
+}
+
+variable "tags" {
+  description = "Tags to apply to resources"
+  type        = map(string)
 }
