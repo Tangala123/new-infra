@@ -64,7 +64,7 @@ resource "aws_ecs_service" "cvist-ecs-service" {
   }
 
   load_balancer {
-    target_group_arn = module.alb.target_group_arn
+    target_group_arn = aws_lb_target_group.alb-tg.arn
     container_name   = var.container_name
     container_port   = var.container_port
   }

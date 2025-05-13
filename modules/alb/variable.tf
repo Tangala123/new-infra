@@ -22,7 +22,11 @@ variable "tags" {
   description = "Tags to apply to resources"
   type        = map(string)
 }
-
+variable "alb_port" {
+  description = "Port for the ALB listener and target group"
+  type        = number
+  default     = 8443
+}
 # variable "certificate_arn" {
 #   description = "ARN of the SSL certificate for HTTPS listener"
 #   type        = string

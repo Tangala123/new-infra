@@ -70,10 +70,10 @@ variable "target_value" {
   default     = 50
 }
 
-variable "target_group_arn" {
-  description = "ARN of the ALB Target Group"
-  type        = string
-}
+# variable "target_group_arn" {
+#   description = "ARN of the ALB Target Group"
+#   type        = string
+# }
 
 variable "tags" {
   description = "Common tags for all resources"
